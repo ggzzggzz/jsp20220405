@@ -22,6 +22,9 @@ private int multiply(int a, int b) {
 
 <%
 for(int i = 2; i <= 9; i++) {
+%>
+	<h1><%= i %> 단 </h1>
+<%
 	for(int j = 1; j <= 9; j++) {
 %>
 
