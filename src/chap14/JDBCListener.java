@@ -57,7 +57,7 @@ public class JDBCListener implements ServletContextListener {
     	String url = props.getProperty("db.url");
     	String schema = props.getProperty("db.schema");
     	String id = props.getProperty("db.id");
-    	String pw = props.getProperty("db.pw");
+    	String pw = props.getProperty("db.password");
     	
     	String dburl = "jdbc:mariadb://" + url + "/" + schema + "?user=" + id + "&password=" + pw;
     	
