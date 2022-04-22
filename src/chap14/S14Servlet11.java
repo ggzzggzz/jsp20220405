@@ -2,9 +2,10 @@ package chap14;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,19 +15,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import chap14.javaBeans.Employee;
+import chap14.javaBeans.Customer;
 
 /**
- * Servlet implementation class S14Servlet06
+ * Servlet implementation class S14Servlet11
  */
-@WebServlet("/S14Servlet06")
-public class S14Servlet06 extends HttpServlet {
+@WebServlet("/S14Servlet11")
+public class S14Servlet11 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public S14Servlet06() {
+    public S14Servlet11() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,36 +36,41 @@ public class S14Servlet06 extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String sql = "SELECT FirstName, LastName, BirthDate FROM Employees WHERE EmployeeID = 1";
-		
+		String sql = "SELECT CustomerName, Country, City, PostalCode FROM Customers WHERE City = ?";
+		List<Customer> list = new ArrayList<>();
 		ServletContext application = getServletContext();
 		DataSource ds = (DataSource) application.getAttribute("dbpool");
 		
-		try(
-			Connection con = ds.getConnection();
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);	) {
+		String param = request.getParameter("city");
+		
+		try (Connection con = ds.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
 			
-			if(rs.next()) {
-				Employee employee = new Employee();
-				
-				String firstName = rs.getString("FirstName");
-				String lastName = rs.getString("LastName");
-				Date birthDate = rs.getDate("BirthDate");
-				
-				employee.setFirstName(firstName);
-				employee.setLastName(lastName);
-				employee.setBirthDate(birthDate);
-				
-				request.setAttribute("employee", employee);
+			pstmt.setString(1, param);
+			
+			try (ResultSet rs = pstmt.executeQuery()) {
+				while (rs.next()) {
+					Customer c = new Customer();
+					c.setName(rs.getString(1));
+					c.setCountry(rs.getString(2));
+					c.setCity(rs.getString(3));
+					c.setPostCode(rs.getString(4));
+					
+					list.add(c);
+				}
 			}
 			
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		String path = "/WEB-INF/view/chap14/ex04.jsp";
+		
+		
+		request.setAttribute("customers", list);
+		
+		String path = "/WEB-INF/view/chap14/ex05.jsp";
 		request.getRequestDispatcher(path).forward(request, response);
+		
 	}
 
 	/**
