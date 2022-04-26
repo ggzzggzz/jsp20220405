@@ -71,19 +71,41 @@
 								<td>${customer.city }</td>
 								<td>${customer.country }</td>
 								<td>${customer.postCode }</td>
-								<td>
-									<form action="" method="post">
-										<input type="hidden" name="id" value="${customer.id }" />
-										<button class="delete-button btn-danger">
-											<i class="fa-solid fa-trash-can"></i>
-										</button>
-
-									</form>
-								</td>
+								
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
+				
+				<!-- nav>ul.pagination>li.page-item*7>a.page-link -->
+				<nav>
+					<ul class="pagination justify-content-center">
+						<!-- li.page-item>a.page-link>span{&laquo;} -->
+						
+						<c:if test="${prevPage >= 1 }">
+							<li class="page-item">
+								<a class="page-link" href="S14Servlet19?page=${prevPage }">
+									<span>&laquo;</span>
+								</a>
+							</li>
+						</c:if>
+						<c:forEach begin="${startPage }" end="${endPage }" var="pageNum">
+							<li class="page-item ${pageNum == currentPage ? 'active' : '' }">
+								<a href="S14Servlet19?page=${pageNum }"
+								 class="page-link">${pageNum }</a>
+							</li>
+						</c:forEach>
+						<!-- li.page-item>a>span{&raquo;} -->
+						
+						<c:if test="${endPage != lastPage }">
+							<li class="page-item">
+								<a class="page-link" href="S14Servlet19?page=${nextPage }">
+									<span>&raquo;</span>
+								</a>
+							</li>
+						</c:if>
+					</ul>
+				</nav>
 			</div>
 		</div>
 	</div>

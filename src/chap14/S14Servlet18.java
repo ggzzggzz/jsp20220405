@@ -38,7 +38,8 @@ public class S14Servlet18 extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String sql = "SELECT CustomerID, CustomerName, City, Country, PostalCode "
-				+ "FROM Customers";
+				+ "FROM Customers "
+				+ "ORDER BY CustomerID ";
 		
 		List<Customer> list = new ArrayList<>();
 		
@@ -60,12 +61,13 @@ public class S14Servlet18 extends HttpServlet {
 				
 				list.add(customer);
 			}
+
+			request.setAttribute("customerList", list);
 						
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		request.setAttribute("customerList", list);
 		
 		String path = "/WEB-INF/view/chap14/ex12.jsp";
 		request.getRequestDispatcher(path).forward(request, response);
