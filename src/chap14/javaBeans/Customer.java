@@ -1,11 +1,20 @@
 package chap14.javaBeans;
 
 public class Customer {
+	private int id;
 	private String name;
 	private String city;
 	private String country;
 	private String postCode;
 
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
 	public String getName() {
 		return name;
 	}

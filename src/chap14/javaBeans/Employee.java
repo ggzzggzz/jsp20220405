@@ -1,6 +1,6 @@
 package chap14.javaBeans;
 
-import java.util.Date;
+
 
 public class Employee {
 	private String firstName;

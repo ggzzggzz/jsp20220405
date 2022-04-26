@@ -31,3 +31,7 @@ SELECT * FROM Products;
 UPDATE Products
 SET Price = Price + 2;
 
+
+SELECT 1 = 1; -- true 1
+SELECT 1 = 2; -- false 0
+SELECT 1 = '1';
