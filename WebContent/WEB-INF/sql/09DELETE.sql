@@ -1,6 +1,7 @@
 USE w3schools;
 
 SELECT * FROM Employees;
+SELECT * FROM Customers;
 
 -- safe mode 해제
 SET SQL_SAFE_UPDATES = 0;
