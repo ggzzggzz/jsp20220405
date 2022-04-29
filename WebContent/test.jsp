@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags/app01" %>
 <%@ page import="java.util.*" %>
 <% request.setCharacterEncoding("utf-8"); %>
 <!DOCTYPE html>
@@ -15,28 +14,35 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<my:navBar current="insert"></my:navBar>
-	<!-- .container>.row>.col>h1{글 작성} -->
-	<div class="container">
-		<div class="row">
-			<div class="col">
-				<h1>글 작성</h1>
-				
-				<form action="${appRoot }/board/insert" method="post">
-					<div>
-						<label class="form-label" for="input1">제목</label>
-						<input class="form-control" type="text" name="title" required id="input1" />
-					</div>
-					
-					<div>
-						<label class="form-label" for="textarea1">본문</label>
-						<textarea class="form-control" name="body" id="textarea1" cols="30" rows="10"></textarea>
-					</div>
-					
-					<button class="btn btn-primary">작성</button>
-				</form>
-			</div>
-		</div>
+
+	<%
+// HtppServletRequest
+pageContext.setAttribute("request", request);
+	
+	%>
+	<div>
+	${request }
+	</div>
+	<div>
+	${request.contextPath }
+	</div>
+	
+	<div>
+	${request.method }
+	</div>
+	<div>
+	${request.remoteUser }
+	</div>
+	
+	<%
+	
+	
+	%>
+	<div>
+	<%-- ${request.parameter } --%>
+	</div>
+	<div>
+	${request.getParameter(a) }
 	</div>
 </body>
 </html>
