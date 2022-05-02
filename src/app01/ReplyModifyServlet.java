@@ -11,21 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import app01.dao.BoardDao;
-import app01.dto.BoardDto;
+import app01.dao.ReplyDao;
+import app01.dto.ReplyDto;
 
 /**
- * Servlet implementation class BoardInsertServlet
+ * Servlet implementation class ReplyModifyServlet
  */
-@WebServlet("/board/insert")
-public class BoardInsertServlet extends HttpServlet {
+@WebServlet("/reply/modify")
+public class ReplyModifyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DataSource ds;
-	
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardInsertServlet() {
+    public ReplyModifyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,34 +40,42 @@ public class BoardInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String path = "/WEB-INF/view/app01/insert.jsp";
-		request.getRequestDispatcher(path).forward(request, response);
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// request 파라미터 가공
-		String title = request.getParameter("title");
-		String body = request.getParameter("body");
-		BoardDto dto = new BoardDto();
-		dto.setTitle(title);
-		dto.setBody(body);
 		
-		// db에 입력
-		// DAO (Data Access Object)
-		try(Connection con = ds.getConnection();) {
-			BoardDao dao = new BoardDao();
-			boolean success = dao.insert(con, dto);			
-		} catch(Exception e) {
+		String boardIdStr = request.getParameter("boardId");
+		String replyIdStr = request.getParameter("replyId");
+		String content = request.getParameter("replyContent");
+		
+		ReplyDto dto = new ReplyDto();
+		dto.setBoardId(Integer.parseInt(boardIdStr));
+		dto.setId(Integer.parseInt(replyIdStr));
+		dto.setContent(content);
+		
+		ReplyDao dao = new ReplyDao();
+		boolean r = false;
+		try(Connection con = ds.getConnection()) {
+			r = dao.update(con, dto);
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		// forward/redirect
-		String path = request.getContextPath() + "/board/get?id=" + dto.getId();
-		response.sendRedirect(path);
+		String location = request.getContextPath() + "/board/get?id=" + dto.getBoardId();
+		
+		if(r) {
+			location += "&rs=true";
+		} else {
+			location += "&rs=false";
+		}
+		
+		response.sendRedirect(location);
 		
 	}
 
