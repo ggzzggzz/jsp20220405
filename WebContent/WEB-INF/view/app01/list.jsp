@@ -53,9 +53,18 @@
 									<c:url value="/board/get" var="getUrl">
 										<c:param name="id" value="${board.id }"></c:param>
 									</c:url>
+									
 									<a href="${getUrl }">
 										${board.title }
 									</a>
+									
+									<c:if test="${board.numOfReply > 0 }">
+										<span>
+											<i class="fa-solid fa-comments"></i>
+											${board.numOfReply }
+										</span>
+									</c:if>
+									
 								</td>
 								<td>${board.prettyInserted }</td>
 							</tr>
