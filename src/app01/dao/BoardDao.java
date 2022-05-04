@@ -128,19 +128,16 @@ public class BoardDao {
 		return false;
 	}
 
-	public boolean delete(Connection con, int id) {
+	public boolean delete(Connection con, int id) throws Exception {
 		String sql = "DELETE FROM Board "
 				+ "WHERE id = ? ";
 		
-		try(PreparedStatement pstmt = con.prepareStatement(sql)) {
-			pstmt.setInt(1, id);
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, id);
 			
-			int count = pstmt.executeUpdate();
-			return count == 1;
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		int count = pstmt.executeUpdate();
 		
-		return false;
+		pstmt.close();
+		return count == 1;
 	}
 }
