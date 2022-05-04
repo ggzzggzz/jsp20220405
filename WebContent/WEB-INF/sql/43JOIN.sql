@@ -69,16 +69,16 @@ ORDER BY 3 DESC;
 -- '1996년 7월'
 SELECT c.CategoryID, c.CategoryName, IFNULL(SUM(d.Quantity), 0) total
 FROM Orders o JOIN OrderDetails d ON o.OrderID = d.OrderID
-									AND o.OrderDate BETWEEN '1996-08-01' AND '1996-08-07'
-			  JOIN Products p ON d.ProductID = p.ProductID
-			  RIGHT JOIN Categories c ON c.CategoryID = p.CategoryID
+				  JOIN Products p ON d.ProductID = p.ProductID
+                  RIGHT JOIN Categories c ON p.CategoryID = c.CategoryID
+WHERE o.OrderDate BETWEEN '1996-07-01' AND '1996-07-31'
 GROUP BY c.CategoryID
 ORDER BY 3 DESC;
 
 SELECT c.CategoryID, c.CategoryName, IFNULL(SUM(d.Quantity), 0) total
 FROM Orders o JOIN OrderDetails d ON o.OrderID = d.OrderID
-				  JOIN Products p ON d.ProductID = p.ProductID
-                  RIGHT JOIN Categories c ON p.CategoryID = c.CategoryID
-WHERE o.OrderDate IS NULL OR o.OrderDate BETWEEN '1996-08-01' AND '1996-08-07'
+									AND o.OrderDate BETWEEN '1996-08-01' AND '1996-08-07'
+			  JOIN Products p ON d.ProductID = p.ProductID
+			  RIGHT JOIN Categories c ON c.CategoryID = p.CategoryID
 GROUP BY c.CategoryID
 ORDER BY 3 DESC;
